@@ -10,9 +10,19 @@ export const MappedImage = (props: MappedImageProps) => {
         throw new Error("MappedImage requires at least one entry in `images`.");
     }
 
-    const [selectedCells, setSelectedCells] = useState<Set<string>>(
+    const invalidImage = props.images.find((image) => image.rows <= 0 || image.columns <= 0);
+    if (invalidImage) {
+        throw new Error(
+            `MappedImage: image "${invalidImage.name}" must have rows > 0 and columns > 0.`,
+        );
+    }
+
+    const [internalSelectedCells, setInternalSelectedCells] = useState<Set<string>>(
         props.selectedCells ?? new Set(),
     );
+    const isSelectionControlled = props.selectedCells !== undefined;
+    const selectedCells = isSelectionControlled ? props.selectedCells! : internalSelectedCells;
+
     const [selectedImageIndex, setSelectedImageIndex] = useState(
         props.selectedImageIndex ?? 0,
     );
@@ -36,7 +46,9 @@ export const MappedImage = (props: MappedImageProps) => {
             next.add(cellId);
         }
 
-        setSelectedCells(next);
+        if (!isSelectionControlled) {
+            setInternalSelectedCells(next);
+        }
         props.onSelectedCellsChange?.(next);
         props.onCellClick?.({ row, col });
     };

@@ -1,12 +1,13 @@
 import { Rectangle, Marker } from "react-leaflet";
 import type { LatLngBoundsExpression } from "leaflet";
 import type { GridProps } from "../types";
-import { columnOffsets } from "../helpers/columnWeights";
+import { weightOffsets } from "../helpers/weights";
 import { headerIcon } from "../helpers/headerIcon";
 import { bindCellAccessibility } from "../helpers/cellAccessibility";
 
 export const Grid = ({
     rows,
+    rowWeights,
     columnLabels,
     columnWeights,
     imgBounds,
@@ -14,19 +15,22 @@ export const Grid = ({
     onCellClick,
 }: GridProps) => {
     const [height, width] = imgBounds;
-    const rectHeight = height / rows;
 
-    const offsets = columnOffsets(columnWeights);
-    const totalWeight = offsets[offsets.length - 1];
-    const pxPerWeightUnit = width / totalWeight;
-    const colLeft = (colCount: number) => offsets[colCount] * pxPerWeightUnit;
-    const colRight = (colCount: number) => offsets[colCount + 1] * pxPerWeightUnit;
+    const colOffsets = weightOffsets(columnWeights);
+    const pxPerColWeightUnit = width / colOffsets[colOffsets.length - 1];
+    const colLeft = (colCount: number) => colOffsets[colCount] * pxPerColWeightUnit;
+    const colRight = (colCount: number) => colOffsets[colCount + 1] * pxPerColWeightUnit;
+
+    const rowOffsets = weightOffsets(rowWeights);
+    const pxPerRowWeightUnit = height / rowOffsets[rowOffsets.length - 1];
+    const rowBottom = (rowCount: number) => rowOffsets[rowCount] * pxPerRowWeightUnit;
+    const rowTop = (rowCount: number) => rowOffsets[rowCount + 1] * pxPerRowWeightUnit;
 
     const cells = Array.from({ length: rows }).map((_, rowCount) =>
         columnLabels.map((columnLabel, colCount) => {
             const bounds: LatLngBoundsExpression = [
-                [rectHeight * (rowCount + 1), colRight(colCount)],
-                [rectHeight * rowCount, colLeft(colCount)],
+                [rowTop(rowCount), colRight(colCount)],
+                [rowBottom(rowCount), colLeft(colCount)],
             ];
 
             const rowLabel = rows - rowCount;
@@ -44,7 +48,7 @@ export const Grid = ({
                     pathOptions={{
                         fillColor: selected ? "red" : "transparent",
                         fillOpacity: selected ? 0.5 : 0,
-                        weight: 1.5
+                        weight: 1.5,
                     }}
                     eventHandlers={{
                         click: activate,
@@ -68,7 +72,7 @@ export const Grid = ({
         return (
             <Marker
                 key={`row-${rowLabel}`}
-                position={[rectHeight * (rowCount + 0.5), -7]}
+                position={[(rowBottom(rowCount) + rowTop(rowCount)) / 2, -7]}
                 icon={headerIcon(String(rowLabel), "grid-header-label--row")}
                 interactive={false}
             />

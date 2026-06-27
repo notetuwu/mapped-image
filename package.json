@@ -3,6 +3,23 @@
   "version": "0.1.0",
   "private": false,
   "license": "MIT",
+  "description": "A React component that overlays a clickable, weighted row/column grid on top of one or more images, built on react-leaflet.",
+  "keywords": [
+    "react",
+    "leaflet",
+    "react-leaflet",
+    "image",
+    "grid",
+    "overlay"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukaskopp390/mapped-image.git"
+  },
+  "homepage": "https://github.com/lukaskopp390/mapped-image#readme",
+  "bugs": {
+    "url": "https://github.com/lukaskopp390/mapped-image/issues"
+  },
   "type": "module",
   "main": "MappedImage.tsx",
   "types": "MappedImage.tsx",

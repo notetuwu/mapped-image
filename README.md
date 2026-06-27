@@ -39,12 +39,13 @@ Clicking a cell toggles its selection (filled red) and reports the cell's row nu
 | `images` | `ImageConfig[]` | Required. The set of selectable angle images — see below. |
 | `alt` | `string` | Alt text for the currently displayed image. |
 | `width` / `height` | `number` | Pixel size of the rendered component. The image is scaled to fit without distortion (letterboxed if its aspect ratio doesn't match). |
-| `selectedCells` | `Set<string>` | Optional initial selection, as `"<row>,<colLetter>"` ids (e.g. `"3,F"`). Uncontrolled after mount — see `onSelectedCellsChange` to read updates. |
-| `selectedImageIndex` | `number` | Optional initial selected image index. |
+| `selectedCells` | `Set<string>` | Selection, as `"<row>,<colLetter>"` ids (e.g. `"3,F"`). If provided, the component is **fully controlled**: it's your responsibility to update it (typically in `onSelectedCellsChange`) for clicks to visibly toggle. Omit it to let the component manage selection internally instead. |
+| `selectedImageIndex` | `number` | Optional initial selected image index. Uncontrolled after mount. |
 | `onCellClick` | `({ row, col }) => void` | Fires on every cell click, `row` is a 1-based number from the top, `col` is the letter label. |
-| `onSelectedCellsChange` | `(cells: Set<string>) => void` | Fires whenever the selection changes — use this to persist/export the current selection. |
+| `onSelectedCellsChange` | `(cells: Set<string>) => void` | Fires whenever a cell is toggled, with the resulting selection. Required if `selectedCells` is controlled — also useful for persisting/exporting the selection (e.g. from an external editor). |
 | `onSelectedImageIndexChange` | `(index: number) => void` | Fires whenever the active image changes. |
 | `renderImageSelector` | `(props: ImageSelectorProps) => ReactNode` | Optional override for the image-switcher UI rendered over the map. Defaults to a row of buttons; pass your own to fully customize it, or build your own selector entirely outside this component using the controlled `selectedImageIndex`/`onSelectedImageIndexChange` props instead. |
+| `maxBoundsPadding` | `number` | Extra pannable margin, in pixels, beyond the image edges. Defaults to `50`. |
 
 ### `ImageConfig`
 
@@ -55,6 +56,13 @@ Clicking a cell toggles its selection (filled red) and reports the cell's row nu
 | `columns` | `number` | Number of columns in this image's grid. |
 | `rows` | `number` | Number of rows in this image's grid. |
 | `columnWeights` | `Record<number, number>` | Optional relative width overrides, keyed by 0-based column index (default weight is `1`). Only needs entries for the columns that aren't uniform width — e.g. `{ 2: 3 }` makes column index 2 three times as wide as the others. |
+| `rowWeights` | `Record<number, number>` | Same as `columnWeights`, but for row heights. |
+
+> Both `rows`/`columns` must be greater than `0`.
+
+## Building an editor
+
+This package intentionally exposes `selectedImageIndex`/`onSelectedImageIndexChange` and a controllable `selectedCells`/`onSelectedCellsChange` so a separate editor app (outside this package) can drive the grid entirely from its own state — e.g. to add/remove rows and columns, adjust `columnWeights`/`rowWeights`, and persist the resulting `ImageConfig[]` plus selection as a JSON config to reload later. There's no editor UI in this package itself.
 
 ## Development
 

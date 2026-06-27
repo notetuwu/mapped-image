@@ -8,6 +8,8 @@ export type ImageConfig = {
     rows: number;
     /** colIndex -> relative width weight, default weight is 1. Only needs entries for non-uniform columns. */
     columnWeights?: Record<number, number>;
+    /** rowIndex -> relative height weight, default weight is 1. Only needs entries for non-uniform rows. */
+    rowWeights?: Record<number, number>;
 };
 
 export type ImageSelectorProps = {
@@ -44,6 +46,7 @@ export type ImageLayerProps = {
 
 export type GridProps = {
     rows: number;
+    rowWeights: number[];
     columnLabels: string[];
     columnWeights: number[];
     imgBounds: LatLngTuple;

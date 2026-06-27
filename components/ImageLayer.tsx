@@ -5,7 +5,7 @@ import type { ImageLayerProps } from "../types";
 import { Grid } from "./Grid";
 import { imageBounds } from "../helpers/imageBounds";
 import { colNames } from "../helpers/colNames";
-import { resolveColumnWeights } from "../helpers/columnWeights";
+import { resolveWeights } from "../helpers/weights";
 
 export const ImageLayer = ({
     image,
@@ -39,7 +39,8 @@ export const ImageLayer = ({
         [imgHeight + maxBoundsPadding, imgWidth + maxBoundsPadding],
     ];
     const columnLabels = colNames(colOffset, image.columns);
-    const columnWeights = resolveColumnWeights(image.columns, image.columnWeights);
+    const columnWeights = resolveWeights(image.columns, image.columnWeights);
+    const rowWeights = resolveWeights(image.rows, image.rowWeights);
 
     return (
         <MapContainer
@@ -53,6 +54,7 @@ export const ImageLayer = ({
         >
             <Grid
                 rows={image.rows}
+                rowWeights={rowWeights}
                 columnLabels={columnLabels}
                 columnWeights={columnWeights}
                 imgBounds={imgBounds}
