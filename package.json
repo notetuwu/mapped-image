@@ -1,0 +1,23 @@
+{
+  "name": "mapped-image",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "main": "MappedImage.tsx",
+  "types": "MappedImage.tsx",
+  "files": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "react-leaflet": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.9.21"
+  }
+}

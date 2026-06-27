@@ -1,0 +1,19 @@
+.grid-header-label-icon {
+    background: none;
+    border: none;
+}
+
+.grid-header-label {
+    position: absolute;
+    display: block;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.grid-header-label--column {
+    transform: translate(-50%, -100%);
+}
+
+.grid-header-label--row {
+    transform: translate(-100%, -50%);
+}
