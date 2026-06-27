@@ -2,6 +2,7 @@
   "name": "mapped-image",
   "version": "0.1.0",
   "private": false,
+  "license": "MIT",
   "type": "module",
   "main": "MappedImage.tsx",
   "types": "MappedImage.tsx",
