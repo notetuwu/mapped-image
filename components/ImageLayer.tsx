@@ -7,7 +7,16 @@ import { imageBounds } from "../helpers/imageBounds";
 import { colNames } from "../helpers/colNames";
 import { resolveColumnWeights } from "../helpers/columnWeights";
 
-export const ImageLayer = ({ image, colOffset, width, height, alt, selectedCells, onCellClick }: ImageLayerProps) => {
+export const ImageLayer = ({
+    image,
+    colOffset,
+    width,
+    height,
+    alt,
+    selectedCells,
+    maxBoundsPadding = 100,
+    onCellClick,
+}: ImageLayerProps) => {
     const [imgBounds, setImgBounds] = useState<LatLngTuple | null>(null);
     const [loadError, setLoadError] = useState<Error | null>(null);
 
@@ -23,7 +32,12 @@ export const ImageLayer = ({ image, colOffset, width, height, alt, selectedCells
         return null;
     }
 
+    const [imgHeight, imgWidth] = imgBounds;
     const bounds: LatLngBoundsExpression = [[0, 0], imgBounds];
+    const maxBounds: LatLngBoundsExpression = [
+        [-maxBoundsPadding , -maxBoundsPadding],
+        [imgHeight + maxBoundsPadding, imgWidth + maxBoundsPadding],
+    ];
     const columnLabels = colNames(colOffset, image.columns);
     const columnWeights = resolveColumnWeights(image.columns, image.columnWeights);
 
@@ -32,6 +46,8 @@ export const ImageLayer = ({ image, colOffset, width, height, alt, selectedCells
             crs={CRS.Simple}
             bounds={bounds}
             boundsOptions={{ padding: [50, 50] }}
+            maxBounds={maxBounds}
+            maxBoundsViscosity={0.5}
             style={{ width, height }}
             maxZoom={2}
         >

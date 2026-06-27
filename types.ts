@@ -27,6 +27,8 @@ export type MappedImageProps = {
     onSelectedCellsChange?: (selectedCells: Set<string>) => void;
     onSelectedImageIndexChange?: (index: number) => void;
     renderImageSelector?: (props: ImageSelectorProps) => ReactNode;
+    /** Extra pannable margin (in pixels) beyond the image edges. Defaults to 50. */
+    maxBoundsPadding?: number;
 };
 
 export type ImageLayerProps = {
@@ -36,6 +38,7 @@ export type ImageLayerProps = {
     height: number;
     alt: string;
     selectedCells: Set<string>;
+    maxBoundsPadding?: number;
     onCellClick: GridProps["onCellClick"];
 };
 

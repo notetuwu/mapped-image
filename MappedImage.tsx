@@ -55,6 +55,7 @@ export const MappedImage = (props: MappedImageProps) => {
                 height={props.height}
                 alt={props.alt}
                 selectedCells={selectedCells}
+                maxBoundsPadding={props.maxBoundsPadding}
                 onCellClick={handleCellClick}
             />
             {renderSelector({
