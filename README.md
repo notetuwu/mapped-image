@@ -5,7 +5,7 @@ A React component that overlays a clickable row/column grid on top of one or mor
 ## Install
 
 ```bash
-npm install github:lukaskopp390/mapped-image
+npm install github:notetuwu/mapped-image
 ```
 
 `leaflet` and `react-leaflet` are declared as dependencies and installed automatically. `react` and `react-dom` are peer dependencies, resolved from your app.

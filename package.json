@@ -14,11 +14,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lukaskopp390/mapped-image.git"
+    "url": "git+https://github.com/notetuwu/mapped-image.git"
   },
-  "homepage": "https://github.com/lukaskopp390/mapped-image#readme",
+  "homepage": "https://github.com/notetuwu/mapped-image#readme",
   "bugs": {
-    "url": "https://github.com/lukaskopp390/mapped-image/issues"
+    "url": "https://github.com/notetuwu/mapped-image/issues"
   },
   "type": "module",
   "main": "MappedImage.tsx",
