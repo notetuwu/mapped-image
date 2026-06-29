@@ -1,6 +1,6 @@
 {
   "name": "mapped-image",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "license": "MIT",
   "description": "A React component that overlays a clickable, weighted row/column grid on top of one or more images, built on react-leaflet.",
@@ -25,7 +25,8 @@
   "types": "MappedImage.tsx",
   "files": [
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "**/*.css"
   ],
   "peerDependencies": {
     "react": "^19.0.0",
