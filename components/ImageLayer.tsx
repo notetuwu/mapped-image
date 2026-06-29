@@ -3,6 +3,7 @@ import { CRS, type LatLngBoundsExpression, type LatLngTuple } from "leaflet";
 import { MapContainer, ImageOverlay } from "react-leaflet";
 import type { ImageLayerProps } from "../types";
 import { Grid } from "./Grid";
+import { ZoomController } from "./ZoomController";
 import { imageBounds } from "../helpers/imageBounds";
 import { colNames } from "../helpers/colNames";
 import { resolveWeights } from "../helpers/weights";
@@ -16,6 +17,10 @@ export const ImageLayer = ({
     alt,
     selectedCells,
     maxBoundsPadding = 100,
+    zoomMultiplier = 1,
+    weightsEditable,
+    onColumnWeightsChange,
+    onRowWeightsChange,
     onCellClick,
 }: ImageLayerProps) => {
     const [imgBounds, setImgBounds] = useState<LatLngTuple | null>(null);
@@ -53,6 +58,7 @@ export const ImageLayer = ({
             style={{ width, height }}
             maxZoom={2}
         >
+            <ZoomController zoomMultiplier={zoomMultiplier} />
             <Grid
                 rows={image.rows}
                 rowOffset={rowOffset}
@@ -61,6 +67,9 @@ export const ImageLayer = ({
                 columnWeights={columnWeights}
                 imgBounds={imgBounds}
                 selectedCells={selectedCells}
+                weightsEditable={weightsEditable}
+                onColumnWeightsChange={onColumnWeightsChange}
+                onRowWeightsChange={onRowWeightsChange}
                 onCellClick={onCellClick}
             />
             <ImageOverlay url={image.src} bounds={bounds} alt={alt} />

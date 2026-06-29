@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resolveWeights, weightOffsets } from "./weights";
+import { applyWeightDelta, resolveWeights, weightOffsets } from "./weights";
 
 describe("resolveWeights", () => {
     it("defaults every index to weight 1 with no overrides", () => {
@@ -18,5 +18,25 @@ describe("weightOffsets", () => {
 
     it("returns [0] for an empty weight list", () => {
         expect(weightOffsets([])).toEqual([0]);
+    });
+});
+
+describe("applyWeightDelta", () => {
+    it("shifts weight from the next index into the dragged index, preserving the total", () => {
+        expect(applyWeightDelta([1, 1, 1], 0, 0.5)).toEqual([1.5, 0.5, 1]);
+    });
+
+    it("shifts the other direction for a negative delta", () => {
+        expect(applyWeightDelta([1, 1, 1], 0, -0.5)).toEqual([0.5, 1.5, 1]);
+    });
+
+    it("clamps so neither side drops below the minimum weight", () => {
+        const [a, b] = applyWeightDelta([1, 1], 0, 10);
+        expect(a).toBeCloseTo(1.8);
+        expect(b).toBeCloseTo(0.2);
+
+        const [c, d] = applyWeightDelta([1, 1], 0, -10);
+        expect(c).toBeCloseTo(0.2);
+        expect(d).toBeCloseTo(1.8);
     });
 });

@@ -17,3 +17,15 @@
 .grid-header-label--row {
     transform: translate(-100%, -50%);
 }
+
+.grid-weight-handle--column {
+    cursor: col-resize;
+}
+
+.grid-weight-handle--row {
+    cursor: row-resize;
+}
+
+.grid-weight-handle:hover {
+    stroke-opacity: 0.6;
+}

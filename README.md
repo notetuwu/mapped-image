@@ -46,6 +46,10 @@ Clicking a cell toggles its selection (filled red) and reports the cell's row nu
 | `onSelectedImageIndexChange` | `(index: number) => void` | Fires whenever the active image changes. |
 | `renderImageSelector` | `(props: ImageSelectorProps) => ReactNode` | Optional override for the image-switcher UI rendered over the map. Defaults to a row of buttons; pass your own to fully customize it, or build your own selector entirely outside this component using the controlled `selectedImageIndex`/`onSelectedImageIndexChange` props instead. |
 | `maxBoundsPadding` | `number` | Extra pannable margin, in pixels, beyond the image edges. Defaults to `50`. |
+| `zoomMultiplier` | `number` | Scales the default fit-to-container zoom. `<1` zooms out, `>1` zooms in. Defaults to `1`. |
+| `weightsEditable` | `boolean` | When `true`, draggable handles appear on every internal row/column boundary, letting the user resize relative weights with the mouse. Defaults to `false`. |
+| `onColumnWeightsChange` | `(weights: number[]) => void` | Fires once a column-weight drag is released, with the full resolved weight array for the currently displayed image. |
+| `onRowWeightsChange` | `(weights: number[]) => void` | Same as `onColumnWeightsChange`, for row-weight drags. |
 
 ### `ImageConfig`
 
@@ -59,10 +63,11 @@ Clicking a cell toggles its selection (filled red) and reports the cell's row nu
 | `rowWeights` | `Record<number, number>` | Same as `columnWeights`, but for row heights. |
 
 > Both `rows`/`columns` must be greater than `0`.
+> `columnWeights`/`rowWeights` indices follow the array order used internally (column index `0` = leftmost; row index `0` = the row nearest the *bottom* of the image, not the top, since that's the underlying coordinate system's origin) — keep this in mind if you see row weights affecting the opposite row from what you expected.
 
 ## Building an editor
 
-This package intentionally exposes `selectedImageIndex`/`onSelectedImageIndexChange` and a controllable `selectedCells`/`onSelectedCellsChange` so a separate editor app (outside this package) can drive the grid entirely from its own state — e.g. to add/remove rows and columns, adjust `columnWeights`/`rowWeights`, and persist the resulting `ImageConfig[]` plus selection as a JSON config to reload later. There's no editor UI in this package itself.
+This package intentionally exposes `selectedImageIndex`/`onSelectedImageIndexChange` and a controllable `selectedCells`/`onSelectedCellsChange` so a separate editor app (outside this package) can drive the grid entirely from its own state — e.g. to add/remove rows and columns, persist the resulting `ImageConfig[]` plus selection as a JSON config to reload later, and build its own row/column-count controls. For weight editing specifically, set `weightsEditable` and read the result from `onColumnWeightsChange`/`onRowWeightsChange` to update your own copy of `ImageConfig.columnWeights`/`rowWeights` (drags are previewed locally for responsiveness and only reported once released). There's no other editor UI in this package itself.
 
 ## Development
 

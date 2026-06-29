@@ -31,6 +31,14 @@ export type MappedImageProps = {
     renderImageSelector?: (props: ImageSelectorProps) => ReactNode;
     /** Extra pannable margin (in pixels) beyond the image edges. Defaults to 50. */
     maxBoundsPadding?: number;
+    /** Scales the default fit-to-container zoom. <1 zooms out, >1 zooms in. Defaults to 1. */
+    zoomMultiplier?: number;
+    /** When true, draggable handles appear between rows/columns to resize their relative weights via mouse. Defaults to false. */
+    weightsEditable?: boolean;
+    /** Fires once a column-weight drag is released, with the full resolved weight array for the current image. */
+    onColumnWeightsChange?: (weights: number[]) => void;
+    /** Fires once a row-weight drag is released, with the full resolved weight array for the current image. */
+    onRowWeightsChange?: (weights: number[]) => void;
 };
 
 export type ImageLayerProps = {
@@ -42,6 +50,10 @@ export type ImageLayerProps = {
     alt: string;
     selectedCells: Set<string>;
     maxBoundsPadding?: number;
+    zoomMultiplier?: number;
+    weightsEditable?: boolean;
+    onColumnWeightsChange?: (weights: number[]) => void;
+    onRowWeightsChange?: (weights: number[]) => void;
     onCellClick: GridProps["onCellClick"];
 };
 
@@ -53,6 +65,9 @@ export type GridProps = {
     columnWeights: number[];
     imgBounds: LatLngTuple;
     selectedCells: Set<string>;
+    weightsEditable?: boolean;
+    onColumnWeightsChange?: (weights: number[]) => void;
+    onRowWeightsChange?: (weights: number[]) => void;
     onCellClick?: (props: ICellClickProps) => void;
 };
 

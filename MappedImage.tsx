@@ -5,6 +5,8 @@ import type { ICellClickProps, ImageSelectorProps, MappedImageProps } from "./ty
 import { DefaultImageSelector } from "./components/DefaultImageSelector";
 import { ImageLayer } from "./components/ImageLayer";
 
+// Type-only re-export; doesn't add a non-component export for fast-refresh purposes.
+// eslint-disable-next-line react-refresh/only-export-components
 export * from "./types";
 
 export const MappedImage = (props: MappedImageProps) => {
@@ -74,6 +76,10 @@ export const MappedImage = (props: MappedImageProps) => {
                 alt={props.alt}
                 selectedCells={selectedCells}
                 maxBoundsPadding={props.maxBoundsPadding}
+                zoomMultiplier={props.zoomMultiplier}
+                weightsEditable={props.weightsEditable}
+                onColumnWeightsChange={props.onColumnWeightsChange}
+                onRowWeightsChange={props.onRowWeightsChange}
                 onCellClick={handleCellClick}
             />
             {renderSelector({
