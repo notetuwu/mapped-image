@@ -36,6 +36,7 @@ export type MappedImageProps = {
 export type ImageLayerProps = {
     image: ImageConfig;
     colOffset: number;
+    rowOffset: number;
     width: number;
     height: number;
     alt: string;
@@ -46,6 +47,7 @@ export type ImageLayerProps = {
 
 export type GridProps = {
     rows: number;
+    rowOffset: number;
     rowWeights: number[];
     columnLabels: string[];
     columnWeights: number[];

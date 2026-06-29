@@ -10,6 +10,7 @@ import { resolveWeights } from "../helpers/weights";
 export const ImageLayer = ({
     image,
     colOffset,
+    rowOffset,
     width,
     height,
     alt,
@@ -54,6 +55,7 @@ export const ImageLayer = ({
         >
             <Grid
                 rows={image.rows}
+                rowOffset={rowOffset}
                 rowWeights={rowWeights}
                 columnLabels={columnLabels}
                 columnWeights={columnWeights}

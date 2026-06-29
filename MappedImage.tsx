@@ -31,6 +31,9 @@ export const MappedImage = (props: MappedImageProps) => {
     const colOffset = props.images
         .slice(0, selectedImageIndex)
         .reduce((sum, image) => sum + image.columns, 0);
+    const rowOffset = props.images
+        .slice(0, selectedImageIndex)
+        .reduce((sum, image) => sum + image.rows, 0);
 
     const handleSelectImage = (index: number) => {
         setSelectedImageIndex(index);
@@ -63,6 +66,7 @@ export const MappedImage = (props: MappedImageProps) => {
                 key={selectedImage.src}
                 image={selectedImage}
                 colOffset={colOffset}
+                rowOffset={rowOffset}
                 width={props.width}
                 height={props.height}
                 alt={props.alt}

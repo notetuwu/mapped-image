@@ -1,6 +1,6 @@
 # mapped-image
 
-A React component that overlays a clickable row/column grid on top of one or more images, built on [react-leaflet](https://react-leaflet.js.org/). Useful for marking specific regions of a part photographed from multiple angles, where columns continue numbering across angles since they represent the same physical surface.
+A React component that overlays a clickable row/column grid on top of one or more images, built on [react-leaflet](https://react-leaflet.js.org/). Useful for marking specific regions of a part photographed from multiple angles, where rows and columns continue numbering across angles since they represent the same physical surface.
 
 ## Install
 
@@ -30,7 +30,7 @@ import { MappedImage } from "mapped-image/MappedImage";
 />
 ```
 
-Clicking a cell toggles its selection (filled red) and reports the cell's row number / column letter. Because columns are numbered continuously across `images` (the "Side" image above picks up at column `F`, since "Front" used `A`-`E`), the same letter+number pair always identifies the same row, regardless of which image happens to be selected — useful since all images represent different angles of the same physical part.
+Clicking a cell toggles its selection (filled red) and reports the cell's row number / column letter. Both axes are numbered continuously across `images` — e.g. the "Side" image above picks up at column `F` (since "Front" used `A`-`E`) and would pick up at row `6` if "Front" had 5 rows. The same letter+number pair always identifies the same physical location, regardless of which image happens to be selected — useful since all images represent different angles of the same physical part.
 
 ## Props
 

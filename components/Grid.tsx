@@ -7,6 +7,7 @@ import { bindCellAccessibility } from "../helpers/cellAccessibility";
 
 export const Grid = ({
     rows,
+    rowOffset,
     rowWeights,
     columnLabels,
     columnWeights,
@@ -33,7 +34,7 @@ export const Grid = ({
                 [rowBottom(rowCount), colLeft(colCount)],
             ];
 
-            const rowLabel = rows - rowCount;
+            const rowLabel = rowOffset + (rows - rowCount);
             const cellId = `${rowLabel},${columnLabel}`;
             const selected = selectedCells.has(cellId);
             const activate = () => onCellClick?.({ col: columnLabel, row: rowLabel });
@@ -68,7 +69,7 @@ export const Grid = ({
     ));
 
     const rowHeaders = Array.from({ length: rows }).map((_, rowCount) => {
-        const rowLabel = rows - rowCount;
+        const rowLabel = rowOffset + (rows - rowCount);
         return (
             <Marker
                 key={`row-${rowLabel}`}
