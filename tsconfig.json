@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es2022", "dom"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "declaration": true,
+    "ignoreDeprecations": "6.0"
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "dist", "node_modules"]
+}

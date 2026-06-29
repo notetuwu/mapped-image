@@ -5,6 +5,8 @@ import type { ICellClickProps, ImageSelectorProps, MappedImageProps } from "./ty
 import { DefaultImageSelector } from "./components/DefaultImageSelector";
 import { ImageLayer } from "./components/ImageLayer";
 
+export * from "./types";
+
 export const MappedImage = (props: MappedImageProps) => {
     if (props.images.length === 0) {
         throw new Error("MappedImage requires at least one entry in `images`.");
