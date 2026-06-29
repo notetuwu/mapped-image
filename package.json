@@ -34,7 +34,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "prepare": "tsup"
   },
   "peerDependencies": {
     "react": "^19.0.0",

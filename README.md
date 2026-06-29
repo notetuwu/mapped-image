@@ -5,12 +5,12 @@ A React component that overlays a clickable row/column grid on top of one or mor
 ## Install
 
 ```bash
-npm install github:notetuwu/mapped-image
+npm install mapped-image
 ```
 
 `leaflet` and `react-leaflet` are declared as dependencies and installed automatically. `react` and `react-dom` are peer dependencies, resolved from your app.
 
-> **Note:** this package currently ships untranspiled `.tsx` source (no build step) and is intended to be installed straight from this repository's source. Your app's own bundler is expected to compile it. If you instead need a pre-built `dist` (ESM/CJS + type declarations) for non-TS-aware consumers, that's not set up yet.
+The package ships compiled ESM + type declarations (built with `tsup`), so it works like any normal npm package — no extra bundler configuration needed.
 
 ## Usage
 
