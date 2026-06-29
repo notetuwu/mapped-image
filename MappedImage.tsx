@@ -80,6 +80,8 @@ export const MappedImage = (props: MappedImageProps) => {
                 weightsEditable={props.weightsEditable}
                 onColumnWeightsChange={props.onColumnWeightsChange}
                 onRowWeightsChange={props.onRowWeightsChange}
+                onColumnWeightsDrag={props.onColumnWeightsDrag}
+                onRowWeightsDrag={props.onRowWeightsDrag}
                 onCellClick={handleCellClick}
             />
             {renderSelector({

@@ -21,6 +21,8 @@ export const ImageLayer = ({
     weightsEditable,
     onColumnWeightsChange,
     onRowWeightsChange,
+    onColumnWeightsDrag,
+    onRowWeightsDrag,
     onCellClick,
 }: ImageLayerProps) => {
     const [imgBounds, setImgBounds] = useState<LatLngTuple | null>(null);
@@ -70,6 +72,8 @@ export const ImageLayer = ({
                 weightsEditable={weightsEditable}
                 onColumnWeightsChange={onColumnWeightsChange}
                 onRowWeightsChange={onRowWeightsChange}
+                onColumnWeightsDrag={onColumnWeightsDrag}
+                onRowWeightsDrag={onRowWeightsDrag}
                 onCellClick={onCellClick}
             />
             <ImageOverlay url={image.src} bounds={bounds} alt={alt} />

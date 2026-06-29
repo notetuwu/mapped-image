@@ -20,6 +20,8 @@ export const Grid = ({
     weightsEditable,
     onColumnWeightsChange,
     onRowWeightsChange,
+    onColumnWeightsDrag,
+    onRowWeightsDrag,
     onCellClick,
 }: GridProps) => {
     const [dragState, setDragState] = useState<DragState | null>(null);
@@ -104,9 +106,11 @@ export const Grid = ({
                   axis="column"
                   boundary={colRight(index)}
                   length={height}
-                  onDrag={(deltaUnits) =>
-                      setDragState({ axis: "column", index, deltaWeight: deltaUnits / pxPerColWeightUnit })
-                  }
+                  onDrag={(deltaUnits) => {
+                      const deltaWeight = deltaUnits / pxPerColWeightUnit;
+                      setDragState({ axis: "column", index, deltaWeight });
+                      onColumnWeightsDrag?.(applyWeightDelta(columnWeights, index, deltaWeight));
+                  }}
                   onDragEnd={() => {
                       onColumnWeightsChange?.(displayColumnWeights);
                       setDragState(null);
@@ -122,9 +126,11 @@ export const Grid = ({
                   axis="row"
                   boundary={rowTop(index)}
                   length={width}
-                  onDrag={(deltaUnits) =>
-                      setDragState({ axis: "row", index, deltaWeight: deltaUnits / pxPerRowWeightUnit })
-                  }
+                  onDrag={(deltaUnits) => {
+                      const deltaWeight = deltaUnits / pxPerRowWeightUnit;
+                      setDragState({ axis: "row", index, deltaWeight });
+                      onRowWeightsDrag?.(applyWeightDelta(rowWeights, index, deltaWeight));
+                  }}
                   onDragEnd={() => {
                       onRowWeightsChange?.(displayRowWeights);
                       setDragState(null);

@@ -39,6 +39,10 @@ export type MappedImageProps = {
     onColumnWeightsChange?: (weights: number[]) => void;
     /** Fires once a row-weight drag is released, with the full resolved weight array for the current image. */
     onRowWeightsChange?: (weights: number[]) => void;
+    /** Fires continuously while a column-weight handle is being dragged, with the live preview weight array. */
+    onColumnWeightsDrag?: (weights: number[]) => void;
+    /** Fires continuously while a row-weight handle is being dragged, with the live preview weight array. */
+    onRowWeightsDrag?: (weights: number[]) => void;
 };
 
 export type ImageLayerProps = {
@@ -54,6 +58,8 @@ export type ImageLayerProps = {
     weightsEditable?: boolean;
     onColumnWeightsChange?: (weights: number[]) => void;
     onRowWeightsChange?: (weights: number[]) => void;
+    onColumnWeightsDrag?: (weights: number[]) => void;
+    onRowWeightsDrag?: (weights: number[]) => void;
     onCellClick: GridProps["onCellClick"];
 };
 
@@ -68,6 +74,8 @@ export type GridProps = {
     weightsEditable?: boolean;
     onColumnWeightsChange?: (weights: number[]) => void;
     onRowWeightsChange?: (weights: number[]) => void;
+    onColumnWeightsDrag?: (weights: number[]) => void;
+    onRowWeightsDrag?: (weights: number[]) => void;
     onCellClick?: (props: ICellClickProps) => void;
 };
 
