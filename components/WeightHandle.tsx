@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Polyline, useMap } from "react-leaflet";
 import type { LatLngExpression, LeafletMouseEvent } from "leaflet";
 
@@ -16,6 +16,18 @@ export const WeightHandle = ({ axis, boundary, length, onDrag, onDragEnd }: Weig
     const map = useMap();
     const dragStartRef = useRef<number | null>(null);
     const lastDeltaRef = useRef(0);
+    const activeListenersRef = useRef<{ move: (e: MouseEvent) => void; up: () => void } | null>(null);
+
+    useEffect(() => {
+        return () => {
+            if (!activeListenersRef.current) {
+                return;
+            }
+            window.removeEventListener("mousemove", activeListenersRef.current.move);
+            window.removeEventListener("mouseup", activeListenersRef.current.up);
+            map.dragging.enable();
+        };
+    }, [map]);
 
     const positions: LatLngExpression[] =
         axis === "column" ? [[0, boundary], [length, boundary]] : [[boundary, 0], [boundary, length]];
@@ -38,12 +50,14 @@ export const WeightHandle = ({ axis, boundary, length, onDrag, onDragEnd }: Weig
 
         const handleMouseUp = () => {
             dragStartRef.current = null;
+            activeListenersRef.current = null;
             map.dragging.enable();
-            onDragEnd(lastDeltaRef.current);
             window.removeEventListener("mousemove", handleMouseMove);
             window.removeEventListener("mouseup", handleMouseUp);
+            onDragEnd(lastDeltaRef.current);
         };
 
+        activeListenersRef.current = { move: handleMouseMove, up: handleMouseUp };
         window.addEventListener("mousemove", handleMouseMove);
         window.addEventListener("mouseup", handleMouseUp);
     };
