@@ -9,12 +9,13 @@ type WeightHandleProps = {
     /** Full span of the line: image height for column boundaries, image width for row boundaries. */
     length: number;
     onDrag: (deltaUnits: number) => void;
-    onDragEnd: () => void;
+    onDragEnd: (deltaUnits: number) => void;
 };
 
 export const WeightHandle = ({ axis, boundary, length, onDrag, onDragEnd }: WeightHandleProps) => {
     const map = useMap();
     const dragStartRef = useRef<number | null>(null);
+    const lastDeltaRef = useRef(0);
 
     const positions: LatLngExpression[] =
         axis === "column" ? [[0, boundary], [length, boundary]] : [[boundary, 0], [boundary, length]];
@@ -23,6 +24,7 @@ export const WeightHandle = ({ axis, boundary, length, onDrag, onDragEnd }: Weig
         event.originalEvent.preventDefault();
         map.dragging.disable();
         dragStartRef.current = axis === "column" ? event.latlng.lng : event.latlng.lat;
+        lastDeltaRef.current = 0;
 
         const handleMouseMove = (moveEvent: MouseEvent) => {
             if (dragStartRef.current === null) {
@@ -30,13 +32,14 @@ export const WeightHandle = ({ axis, boundary, length, onDrag, onDragEnd }: Weig
             }
             const latlng = map.mouseEventToLatLng(moveEvent);
             const current = axis === "column" ? latlng.lng : latlng.lat;
-            onDrag(current - dragStartRef.current);
+            lastDeltaRef.current = current - dragStartRef.current;
+            onDrag(lastDeltaRef.current);
         };
 
         const handleMouseUp = () => {
             dragStartRef.current = null;
             map.dragging.enable();
-            onDragEnd();
+            onDragEnd(lastDeltaRef.current);
             window.removeEventListener("mousemove", handleMouseMove);
             window.removeEventListener("mouseup", handleMouseUp);
         };

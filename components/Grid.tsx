@@ -111,8 +111,9 @@ export const Grid = ({
                       setDragState({ axis: "column", index, deltaWeight });
                       onColumnWeightsDrag?.(toWeightOverrides(applyWeightDelta(columnWeights, index, deltaWeight)));
                   }}
-                  onDragEnd={() => {
-                      onColumnWeightsChange?.(toWeightOverrides(displayColumnWeights));
+                  onDragEnd={(deltaUnits) => {
+                      const deltaWeight = deltaUnits / pxPerColWeightUnit;
+                      onColumnWeightsChange?.(toWeightOverrides(applyWeightDelta(columnWeights, index, deltaWeight)));
                       setDragState(null);
                   }}
               />
@@ -131,8 +132,9 @@ export const Grid = ({
                       setDragState({ axis: "row", index, deltaWeight });
                       onRowWeightsDrag?.(toWeightOverrides(applyWeightDelta(rowWeights, index, deltaWeight)));
                   }}
-                  onDragEnd={() => {
-                      onRowWeightsChange?.(toWeightOverrides(displayRowWeights));
+                  onDragEnd={(deltaUnits) => {
+                      const deltaWeight = deltaUnits / pxPerRowWeightUnit;
+                      onRowWeightsChange?.(toWeightOverrides(applyWeightDelta(rowWeights, index, deltaWeight)));
                       setDragState(null);
                   }}
               />
