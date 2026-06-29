@@ -1,15 +1,18 @@
 import type { LatLngTuple } from "leaflet";
 import type { ReactNode } from "react";
 
+/** index -> relative weight. Only needs entries for non-default (non-1) indices. */
+export type WeightOverrides = Record<number, number>;
+
 export type ImageConfig = {
     name: string;
     src: string;
     columns: number;
     rows: number;
     /** colIndex -> relative width weight, default weight is 1. Only needs entries for non-uniform columns. */
-    columnWeights?: Record<number, number>;
+    columnWeights?: WeightOverrides;
     /** rowIndex -> relative height weight, default weight is 1. Only needs entries for non-uniform rows. */
-    rowWeights?: Record<number, number>;
+    rowWeights?: WeightOverrides;
 };
 
 export type ImageSelectorProps = {
@@ -35,14 +38,14 @@ export type MappedImageProps = {
     zoomMultiplier?: number;
     /** When true, draggable handles appear between rows/columns to resize their relative weights via mouse. Defaults to false. */
     weightsEditable?: boolean;
-    /** Fires once a column-weight drag is released, with the full resolved weight array for the current image. */
-    onColumnWeightsChange?: (weights: number[]) => void;
-    /** Fires once a row-weight drag is released, with the full resolved weight array for the current image. */
-    onRowWeightsChange?: (weights: number[]) => void;
-    /** Fires continuously while a column-weight handle is being dragged, with the live preview weight array. */
-    onColumnWeightsDrag?: (weights: number[]) => void;
-    /** Fires continuously while a row-weight handle is being dragged, with the live preview weight array. */
-    onRowWeightsDrag?: (weights: number[]) => void;
+    /** Fires once a column-weight drag is released, in the same shape as `ImageConfig.columnWeights`. */
+    onColumnWeightsChange?: (weights: WeightOverrides) => void;
+    /** Fires once a row-weight drag is released, in the same shape as `ImageConfig.rowWeights`. */
+    onRowWeightsChange?: (weights: WeightOverrides) => void;
+    /** Fires continuously while a column-weight handle is being dragged, with the live preview overrides. */
+    onColumnWeightsDrag?: (weights: WeightOverrides) => void;
+    /** Fires continuously while a row-weight handle is being dragged, with the live preview overrides. */
+    onRowWeightsDrag?: (weights: WeightOverrides) => void;
 };
 
 export type ImageLayerProps = {
@@ -56,10 +59,10 @@ export type ImageLayerProps = {
     maxBoundsPadding?: number;
     zoomMultiplier?: number;
     weightsEditable?: boolean;
-    onColumnWeightsChange?: (weights: number[]) => void;
-    onRowWeightsChange?: (weights: number[]) => void;
-    onColumnWeightsDrag?: (weights: number[]) => void;
-    onRowWeightsDrag?: (weights: number[]) => void;
+    onColumnWeightsChange?: (weights: WeightOverrides) => void;
+    onRowWeightsChange?: (weights: WeightOverrides) => void;
+    onColumnWeightsDrag?: (weights: WeightOverrides) => void;
+    onRowWeightsDrag?: (weights: WeightOverrides) => void;
     onCellClick: GridProps["onCellClick"];
 };
 
@@ -72,10 +75,10 @@ export type GridProps = {
     imgBounds: LatLngTuple;
     selectedCells: Set<string>;
     weightsEditable?: boolean;
-    onColumnWeightsChange?: (weights: number[]) => void;
-    onRowWeightsChange?: (weights: number[]) => void;
-    onColumnWeightsDrag?: (weights: number[]) => void;
-    onRowWeightsDrag?: (weights: number[]) => void;
+    onColumnWeightsChange?: (weights: WeightOverrides) => void;
+    onRowWeightsChange?: (weights: WeightOverrides) => void;
+    onColumnWeightsDrag?: (weights: WeightOverrides) => void;
+    onRowWeightsDrag?: (weights: WeightOverrides) => void;
     onCellClick?: (props: ICellClickProps) => void;
 };
 

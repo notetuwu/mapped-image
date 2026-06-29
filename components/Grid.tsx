@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Rectangle, Marker } from "react-leaflet";
 import type { LatLngBoundsExpression } from "leaflet";
 import type { GridProps } from "../types";
-import { applyWeightDelta, weightOffsets } from "../helpers/weights";
+import { applyWeightDelta, toWeightOverrides, weightOffsets } from "../helpers/weights";
 import { headerIcon } from "../helpers/headerIcon";
 import { bindCellAccessibility } from "../helpers/cellAccessibility";
 import { WeightHandle } from "./WeightHandle";
@@ -109,10 +109,10 @@ export const Grid = ({
                   onDrag={(deltaUnits) => {
                       const deltaWeight = deltaUnits / pxPerColWeightUnit;
                       setDragState({ axis: "column", index, deltaWeight });
-                      onColumnWeightsDrag?.(applyWeightDelta(columnWeights, index, deltaWeight));
+                      onColumnWeightsDrag?.(toWeightOverrides(applyWeightDelta(columnWeights, index, deltaWeight)));
                   }}
                   onDragEnd={() => {
-                      onColumnWeightsChange?.(displayColumnWeights);
+                      onColumnWeightsChange?.(toWeightOverrides(displayColumnWeights));
                       setDragState(null);
                   }}
               />
@@ -129,10 +129,10 @@ export const Grid = ({
                   onDrag={(deltaUnits) => {
                       const deltaWeight = deltaUnits / pxPerRowWeightUnit;
                       setDragState({ axis: "row", index, deltaWeight });
-                      onRowWeightsDrag?.(applyWeightDelta(rowWeights, index, deltaWeight));
+                      onRowWeightsDrag?.(toWeightOverrides(applyWeightDelta(rowWeights, index, deltaWeight)));
                   }}
                   onDragEnd={() => {
-                      onRowWeightsChange?.(displayRowWeights);
+                      onRowWeightsChange?.(toWeightOverrides(displayRowWeights));
                       setDragState(null);
                   }}
               />

@@ -12,14 +12,36 @@ export const weightOffsets = (weights: number[]): number[] => {
 
 const MIN_WEIGHT = 0.2;
 
-/** Shifts weight from index+1 into index (or back, for a negative delta), clamped so neither drops below MIN_WEIGHT. Total weight is preserved. */
+/**
+ * Shifts weight from index+1 into index (or back, for a negative delta). If the immediate
+ * neighbor would drop below MIN_WEIGHT, the remaining shortfall cascades into the next index
+ * beyond it (and so on), rather than hard-stopping the drag. Total weight is always preserved.
+ */
 export const applyWeightDelta = (weights: number[], index: number, delta: number): number[] => {
-    const a = weights[index];
-    const b = weights[index + 1];
-    const clampedDelta = Math.max(-(a - MIN_WEIGHT), Math.min(b - MIN_WEIGHT, delta));
-
     const next = [...weights];
-    next[index] = a + clampedDelta;
-    next[index + 1] = b - clampedDelta;
+    if (delta === 0) {
+        return next;
+    }
+
+    const growIndex = delta > 0 ? index : index + 1;
+    const direction = delta > 0 ? 1 : -1;
+    let shrinkIndex = delta > 0 ? index + 1 : index;
+    let remaining = Math.abs(delta);
+    let absorbed = 0;
+
+    while (remaining > 0 && shrinkIndex >= 0 && shrinkIndex < next.length) {
+        const available = Math.max(0, next[shrinkIndex] - MIN_WEIGHT);
+        const take = Math.min(available, remaining);
+        next[shrinkIndex] -= take;
+        remaining -= take;
+        absorbed += take;
+        shrinkIndex += direction;
+    }
+
+    next[growIndex] += absorbed;
     return next;
 };
+
+/** Inverse of resolveWeights: collapses a dense weight array into a sparse override map, keyed by index, omitting default (1) entries. */
+export const toWeightOverrides = (weights: number[]): Record<number, number> =>
+    Object.fromEntries(weights.map((weight, index) => [index, weight]).filter(([, weight]) => weight !== 1));

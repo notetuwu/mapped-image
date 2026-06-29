@@ -58,7 +58,8 @@ export const ImageLayer = ({
             maxBounds={maxBounds}
             maxBoundsViscosity={0.5}
             style={{ width, height }}
-            maxZoom={2}
+            minZoom={-10}
+            maxZoom={10}
         >
             <ZoomController zoomMultiplier={zoomMultiplier} />
             <Grid

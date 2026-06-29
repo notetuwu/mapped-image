@@ -47,9 +47,11 @@ Clicking a cell toggles its selection (filled red) and reports the cell's row nu
 | `renderImageSelector` | `(props: ImageSelectorProps) => ReactNode` | Optional override for the image-switcher UI rendered over the map. Defaults to a row of buttons; pass your own to fully customize it, or build your own selector entirely outside this component using the controlled `selectedImageIndex`/`onSelectedImageIndexChange` props instead. |
 | `maxBoundsPadding` | `number` | Extra pannable margin, in pixels, beyond the image edges. Defaults to `50`. |
 | `zoomMultiplier` | `number` | Scales the default fit-to-container zoom. `<1` zooms out, `>1` zooms in. Defaults to `1`. |
-| `weightsEditable` | `boolean` | When `true`, draggable handles appear on every internal row/column boundary, letting the user resize relative weights with the mouse. Defaults to `false`. |
-| `onColumnWeightsChange` | `(weights: number[]) => void` | Fires once a column-weight drag is released, with the full resolved weight array for the currently displayed image. |
-| `onRowWeightsChange` | `(weights: number[]) => void` | Same as `onColumnWeightsChange`, for row-weight drags. |
+| `weightsEditable` | `boolean` | When `true`, draggable handles appear on every internal row/column boundary, letting the user resize relative weights with the mouse. Dragging one boundary past its neighbor's minimum width cascades the remaining resize into the next column/row, and so on. Defaults to `false`. |
+| `onColumnWeightsChange` | `(weights: WeightOverrides) => void` | Fires once a column-weight drag is released, in the same shape as `ImageConfig.columnWeights` — ready to spread directly back into your config. |
+| `onRowWeightsChange` | `(weights: WeightOverrides) => void` | Same as `onColumnWeightsChange`, for row-weight drags. |
+| `onColumnWeightsDrag` | `(weights: WeightOverrides) => void` | Fires continuously while a column-weight handle is being dragged (every `mousemove`), with the live preview. Use `onColumnWeightsChange` instead unless you need to mirror the value while dragging. |
+| `onRowWeightsDrag` | `(weights: WeightOverrides) => void` | Same as `onColumnWeightsDrag`, for row-weight drags. |
 
 ### `ImageConfig`
 
